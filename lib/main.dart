@@ -11,6 +11,7 @@ import 'package:geek_collection/services/collection_service.dart';
 import 'package:geek_collection/services/item_service.dart';
 import 'package:geek_collection/services/persistence_service.dart';
 import 'package:geek_collection/services/share_service.dart';
+import 'package:geek_collection/utils/theme.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> dependency() async {
@@ -47,9 +48,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Geek Collections',
-      theme: ThemeData.light(
-        useMaterial3: true,
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: DefaultTheme.lightThemeData(context),
+      darkTheme: DefaultTheme.darkThemeData(),
       initialRoute: '/',
       routes: {
         '/': (context) => FutureBuilder<bool>(
