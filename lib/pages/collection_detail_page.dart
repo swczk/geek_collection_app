@@ -1,14 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:geek_collection/domain/collections/collections.dart';
 import 'package:geek_collection/pages/collection_uptade_page.dart';
 import 'package:geek_collection/pages/item_create_page.dart';
 import 'package:geek_collection/pages/item_edit_page.dart';
 import 'package:geek_collection/pages/share_create_page.dart';
+import 'package:geek_collection/services/share_service.dart';
+import 'package:get_it/get_it.dart';
 
 class CollectionDetailsScreen extends StatelessWidget {
   final Collection collection;
+  final _shareService = GetIt.I<ShareService>();
 
   CollectionDetailsScreen({required this.collection});
+
+  Future<void> _showDeleteConfirmationDialog(
+      BuildContext context, int userId) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmar Exclusão'),
+          content: const Text(
+              'Você tem certeza de que deseja remover este compartilhamento?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Excluir'),
+              onPressed: () async {
+                Navigator.of(context).pop(); // Fechar o diálogo
+                final result =
+                    await _shareService.deleteShare(collection.id, userId);
+                if (result is Success) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content:
+                            Text('Compartilhamento excluído com sucesso!')),
+                  );
+                  // Atualizar a tela após exclusão (por exemplo, atualizar a coleção)
+                } else if (result is Failure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(result.error ??
+                            'Erro ao excluir compartilhamento')),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +100,7 @@ class CollectionDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Shared with',
+                      'Compartilhado com',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -92,12 +141,18 @@ class CollectionDetailsScreen extends StatelessWidget {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text('Email: ${user.email}'),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            _showDeleteConfirmationDialog(context, user.id);
+                          },
+                        ),
                       ),
                     );
                   },
                 ),
                 if (collection.shares.isEmpty)
-                  const Center(child: Text("None")),
+                  const Center(child: Text("Nenhum")),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,7 +189,7 @@ class CollectionDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(item.description),
-                            Text('Category: ${item.category.name}'),
+                            Text('Categoria: ${item.category.name}'),
                             Text('Condição: ${item.condition}'),
                           ],
                         ),
@@ -154,7 +209,7 @@ class CollectionDetailsScreen extends StatelessWidget {
                   },
                 ),
                 if (collection.items.isEmpty)
-                  const Center(child: Text("None")),
+                  const Center(child: Text("Nenhum")),
               ],
             ),
           ),

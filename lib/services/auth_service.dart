@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final Dio _dio = Dio();
-  final String _baseUrl = 'http://fedora:5002';
+  final String _baseUrl = 'http://fedora:8080';
   final persistenceService = GetIt.I<PersistenceService>();
 
   Future<Result<bool>> login(LoginModel loginModel) async {
@@ -19,7 +19,8 @@ class AuthService {
     }
 
     try {
-      final response = await _dio.post('$_baseUrl/user/login', data: loginModel);
+      final response =
+          await _dio.post('$_baseUrl/user/login', data: loginModel.toJson());
 
       if (response.statusCode == 200) {
         String token = response.data['token'];

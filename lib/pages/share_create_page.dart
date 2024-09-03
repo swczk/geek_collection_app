@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geek_collection/domain/abstractions/result.dart';
+import 'package:geek_collection/services/share_service.dart';
+import 'package:get_it/get_it.dart';
 
 class AddShareScreen extends StatefulWidget {
   final int collectionId;
@@ -11,13 +14,25 @@ class AddShareScreen extends StatefulWidget {
 
 class _AddShareScreenState extends State<AddShareScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _shareService = GetIt.I<ShareService>();
+
   String _email = '';
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Lógica para adicionar compartilhamento
-      Navigator.pop(context);
+      final result = await _shareService.shareCollections(widget.collectionId, _email);
+
+      if (result is Success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Coleção compartilhada com sucesso!')),
+        );
+        Navigator.pop(context, true);
+      } else if (result is Failure) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result.error ?? 'Erro ao compartilhar coleção')),
+        );
+      }
     }
   }
 

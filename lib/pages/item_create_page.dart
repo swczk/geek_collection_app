@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:geek_collection/domain/categories/categories.dart';
+import 'package:geek_collection/domain/items/item_create_dto.dart';
 import 'package:geek_collection/services/category_service.dart';
+import 'package:geek_collection/services/item_service.dart';
 import 'package:get_it/get_it.dart';
 
 class AddItemScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class AddItemScreen extends StatefulWidget {
 class _AddItemScreenState extends State<AddItemScreen> {
   final _formKey = GlobalKey<FormState>();
   final categoryService = GetIt.I<CategoryService>();
+  final itemService = GetIt.I<ItemService>();
 
   late String _name;
   late String _description;
@@ -59,11 +62,33 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Lógica para adicionar item
-      Navigator.pop(context);
+
+      final categoryId = _category?.id;
+      if (categoryId == null) {
+        _showError('Categoria é obrigatória');
+        return;
+      }
+
+      final itemCreate = ItemCreate(
+        name: _name,
+        description: _description,
+        categoryId: categoryId,
+        condition: _condition,
+      );
+
+      final result = await itemService.createItem(
+        collectionId: widget.collectionId,
+        itemCreate: itemCreate,
+      );
+
+      if (result is Success) {
+        Navigator.pop(context);
+      } else if (result is Failure) {
+        _showError(result.error ?? 'Erro ao criar item');
+      }
     }
   }
 
@@ -74,26 +99,27 @@ class _AddItemScreenState extends State<AddItemScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator()) // Exibe o carregamento
+            ? const Center(child: CircularProgressIndicator())
             : Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
-                        decoration:
-                            const InputDecoration(labelText: 'Nome do item'),
-                        onSaved: (value) => _name = value ?? '',
-                        validator: (value) => value == null || value.isEmpty
-                            ? 'Nome é obrigatório'
-                            : null),
+                      decoration:
+                          const InputDecoration(labelText: 'Nome do item'),
+                      onSaved: (value) => _name = value ?? '',
+                      validator: (value) => value == null || value.isEmpty
+                          ? 'Nome é obrigatório'
+                          : null,
+                    ),
                     TextFormField(
-                        decoration: const InputDecoration(
-                            labelText: 'Descrição do item'),
-                        onSaved: (value) => _description = value ?? '',
-                        validator: (value) => value == null || value.isEmpty
-                            ? 'Descrição é obrigatória'
-                            : null),
+                      decoration:
+                          const InputDecoration(labelText: 'Descrição do item'),
+                      onSaved: (value) => _description = value ?? '',
+                      validator: (value) => value == null || value.isEmpty
+                          ? 'Descrição é obrigatória'
+                          : null,
+                    ),
                     DropdownButtonFormField<Category>(
                       value: _category,
                       items: _categories.map((Category category) {
@@ -112,15 +138,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           value == null ? 'Categoria é obrigatória' : null,
                     ),
                     TextFormField(
-                        decoration: const InputDecoration(
-                            labelText: 'Condição do item'),
-                        onSaved: (value) => _condition = value ?? '',
-                        validator: (value) => value == null || value.isEmpty
-                            ? 'Condição é obrigatória'
-                            : null),
+                      decoration:
+                          const InputDecoration(labelText: 'Condição do item'),
+                      onSaved: (value) => _condition = value ?? '',
+                      validator: (value) => value == null || value.isEmpty
+                          ? 'Condição é obrigatória'
+                          : null,
+                    ),
                     const SizedBox(height: 20),
                     FilledButton(
-                        onPressed: _submitForm, child: const Text('Adicionar')),
+                      onPressed: _submitForm,
+                      child: const Text('Adicionar'),
+                    ),
                   ],
                 ),
               ),

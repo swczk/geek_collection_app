@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:geek_collection/domain/items/item_create_dto.dart';
 import 'package:geek_collection/domain/items/item_update_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -10,10 +11,43 @@ import 'package:geek_collection/services/persistence_service.dart';
 class ItemService {
   final Dio _dio = Dio();
   final persistenceService = GetIt.I<PersistenceService>();
-  static const String _baseUrl = 'http://fedora:5002';
+  static const String _baseUrl = 'http://fedora:8080';
 
-  Future<Result<void>> updateItem(
-      int collectionId, ItemUpdate updateItem) async {
+  Future<Result<void>> createItem({
+    required int collectionId,
+    required ItemCreate itemCreate,
+  }) async {
+    final connectivity = await Connectivity().checkConnectivity();
+    if (!connectivity.contains(ConnectivityResult.mobile) &&
+        !connectivity.contains(ConnectivityResult.wifi)) {
+      return const Failure('Você está sem internet!');
+    }
+
+    final tokenResult = await persistenceService.getToken();
+    if (tokenResult is Failure) {
+      return const Failure('Failed to retrieve token');
+    }
+    final token = (tokenResult as Success<String?>).data;
+    try {
+      final response = await _dio.post(
+        '$_baseUrl/collections/$collectionId/items',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        data: itemCreate.toJson(),
+      );
+
+      if (response.statusCode == 201) {
+        return const Success(null);
+      }
+      return const Failure('Erro ao criar item');
+    } catch (e) {
+      return Failure('Erro ao criar item: $e');
+    }
+  }
+
+  Future<Result<void>> updateItem({
+    required int collectionId,
+    required ItemUpdate updateItem,
+  }) async {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {

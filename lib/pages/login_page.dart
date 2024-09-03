@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:geek_collection/domain/users/loginDto.dart';
 import 'package:geek_collection/services/auth_service.dart';
 import 'package:get_it/get_it.dart';
@@ -65,7 +66,7 @@ class LoginScreen extends StatelessWidget {
 
                     final token = await _authService.login(loginModel);
 
-                    if (token != null) {
+                    if (token is Success) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Login realizado com sucesso!')),
                       );

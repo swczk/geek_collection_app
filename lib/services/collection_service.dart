@@ -12,7 +12,7 @@ class CollectionService {
   final Dio _dio = Dio();
   final authService = GetIt.I<AuthService>();
   final persistenceService = GetIt.I<PersistenceService>();
-  static const String _baseUrl = 'http://fedora:5002';
+  static const String _baseUrl = 'http://fedora:8080';
 
   Future<Result<List<Collection>>> fetchCollections() async {
     final connectivity = await Connectivity().checkConnectivity();

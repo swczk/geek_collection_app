@@ -88,8 +88,11 @@ class _EditItemScreenState extends State<EditItemScreen> {
           categoryId: selectedCategory.id,
           condition: formData['condition'],
         );
-        var result =
-            await itemService.updateItem(widget.collectionId, updatedItem);
+        var result = await itemService.updateItem(
+          collectionId: widget.collectionId,
+          updateItem: updatedItem,
+        );
+
         if (result is Failure) {}
         if (result is Success) {
           widget.item.name = updatedItem.name;
@@ -140,7 +143,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       } else if (result is Success) {
         Navigator.pop(context, true);
         if (widget.onItemDeleted != null) {
-          widget.onItemDeleted!(widget.item.id); // Chama o callback
+          widget.onItemDeleted!(widget.item.id);
         }
       }
     } catch (e) {
