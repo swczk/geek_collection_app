@@ -1,33 +1,29 @@
-class ItemUpdate {
-  int id;
+class ItemCreate {
   String name;
   int categoryId;
   String description;
   String condition;
 
-  ItemUpdate({
-    required this.id,
+  ItemCreate({
     required this.name,
     required this.categoryId,
     required this.description,
     required this.condition,
   });
 
-  factory ItemUpdate.fromJson(Map<String, dynamic> json) {
-    ItemUpdate item = ItemUpdate(
-      id: json['id'],
+  factory ItemCreate.fromJson(Map<String, dynamic> json) {
+    ItemCreate item = ItemCreate(
       name: json['name'],
       categoryId: json['categoryId'],
       description: json['description'],
       condition: json['condition'],
     );
-	 print("Item => ${item.toJson()}");
-	 return item;
+    print("Item => ${item.toJson()}");
+    return item;
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
       'categoryId': categoryId,
       'description': description,
