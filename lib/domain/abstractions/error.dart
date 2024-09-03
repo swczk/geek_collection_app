@@ -25,22 +25,17 @@ class _ErroState extends State<Erro> {
       padding: const EdgeInsets.all(1.0),
       child: Center(
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                widget.icon,
-                color: Colors.white,
-                size: widget.size,
-              ),
-              Text(
-                ' ${widget.mensagem}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ]),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Icon(widget.icon, color: Colors.white, size: widget.size),
+            Text(
+              ' ${widget.mensagem}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }

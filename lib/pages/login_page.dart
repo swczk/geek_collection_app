@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:geek_collection/domain/users/loginDto.dart';
 import 'package:geek_collection/services/auth_service.dart';
 import 'package:get_it/get_it.dart';
 
@@ -11,9 +12,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login - Geek Collections'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FormBuilder(
@@ -56,14 +54,16 @@ class LoginScreen extends StatelessWidget {
                 ]),
               ),
               const SizedBox(height: 32.0),
-              ElevatedButton(
+              FilledButton(
                 onPressed: () async {
                   if (_formKey.currentState!.saveAndValidate()) {
                     final formValues = _formKey.currentState!.value;
-                    final email = formValues['email'];
-                    final password = formValues['password'];
+						  final loginModel = LoginModel(
+							email: formValues['email'],
+							password: formValues['password'],
+							);
 
-                    final token = await _authService.login(email, password);
+                    final token = await _authService.login(loginModel);
 
                     if (token != null) {
                       ScaffoldMessenger.of(context).showSnackBar(

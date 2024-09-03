@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:geek_collection/services/auth_service.dart';
+import 'package:get_it/get_it.dart';
 
 class RegisterScreen extends StatelessWidget {
   final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
-  final AuthService _authService = AuthService();
+  final authService = GetIt.I<AuthService>();
 
   @override
   Widget build(BuildContext context) {
@@ -90,19 +92,18 @@ class RegisterScreen extends StatelessWidget {
                       final email = formValues['email'];
                       final password = formValues['password'];
 
-                      final response = await _authService.register(
-                          username, email, password);
+                      var result =
+                          await authService.register(username, email, password);
 
-                      if (response == "Usuário registrado com sucesso.") {
+                      if (result is Failure) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(response!)),
-                        );
-                        Navigator.pop(context);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Erro: $response')),
+                          SnackBar(content: Text('Erro: ${result.error}')),
                         );
                       }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Sucess!")),
+                      );
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text('Registrar'),

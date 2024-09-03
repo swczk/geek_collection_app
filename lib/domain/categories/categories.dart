@@ -6,7 +6,7 @@ class Category {
   Category({
     required this.id,
     required this.name,
-   //  required this.description,
+    //  required this.description,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) {
@@ -15,8 +15,7 @@ class Category {
       name: json['name'],
       // description: json['description'],
     );
-	 print("Category => ${category.toJson()}");
-	 return category;
+    return category;
   }
 
   Map<String, dynamic> toJson() {
