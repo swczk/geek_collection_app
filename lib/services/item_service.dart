@@ -11,7 +11,7 @@ import 'package:geek_collection/services/persistence_service.dart';
 class ItemService {
   final Dio _dio = Dio();
   final persistenceService = GetIt.I<PersistenceService>();
-  static const String _baseUrl = 'http://fedora:8080';
+  static const String _baseUrl = 'http://fedora:5002';
 
   Future<Result<void>> createItem({
     required int collectionId,

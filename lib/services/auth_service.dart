@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final Dio _dio = Dio();
-  final String _baseUrl = 'http://fedora:8080';
+  final String _baseUrl = 'http://fedora:5002';
   final persistenceService = GetIt.I<PersistenceService>();
 
   Future<Result<bool>> login(LoginModel loginModel) async {

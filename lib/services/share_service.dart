@@ -11,7 +11,7 @@ class ShareService {
   final Dio _dio = Dio();
   final authService = GetIt.I<AuthService>();
   final persistenceService = GetIt.I<PersistenceService>();
-  static const String _baseUrl = 'http://fedora:8080';
+  static const String _baseUrl = 'http://fedora:5002';
 
   Future<Result<List<Collection>>> fetchSharedCollections() async {
     final connectivity = await Connectivity().checkConnectivity();

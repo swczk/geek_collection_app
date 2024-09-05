@@ -10,7 +10,7 @@ import 'package:geek_collection/services/persistence_service.dart';
 
 class UserService {
   final Dio _dio = Dio();
-  static const String _baseUrl = 'http://fedora:8080';
+  static const String _baseUrl = 'http://fedora:5002';
   final persistenceService = GetIt.I<PersistenceService>();
 
   Future<Result<User>> fetchUserProfile() async {
