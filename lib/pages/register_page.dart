@@ -12,115 +12,115 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Registro - Geek Collections'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: FormBuilder(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Crie sua conta',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        child: FormBuilder(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Be Geek!',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const Image(
+                width: 128,
+                image: NetworkImage(
+                    'https://cdn-icons-png.flaticon.com/512/626/626580.png'),
+              ),
+              const SizedBox(height: 32.0),
+              FormBuilderTextField(
+                name: 'username',
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 32.0),
-                FormBuilderTextField(
-                  name: 'username',
-                  decoration: const InputDecoration(
-                    labelText: 'Nome de usuário',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: FormBuilderValidators.required(
-                      errorText: 'Nome de usuário é obrigatório'),
+                validator: FormBuilderValidators.required(
+                    errorText: 'Username is required'),
+              ),
+              const SizedBox(height: 16.0),
+              FormBuilderTextField(
+                name: 'email',
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16.0),
-                FormBuilderTextField(
-                  name: 'email',
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(
-                        errorText: 'Email é obrigatório'),
-                    FormBuilderValidators.email(
-                        errorText: 'Informe um email válido'),
-                  ]),
+                keyboardType: TextInputType.emailAddress,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'Email is required'),
+                  FormBuilderValidators.email(
+                      errorText: 'Please enter a valid email'),
+                ]),
+              ),
+              const SizedBox(height: 16.0),
+              FormBuilderTextField(
+                name: 'password',
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16.0),
-                FormBuilderTextField(
-                  name: 'password',
-                  decoration: const InputDecoration(
-                    labelText: 'Senha',
-                    border: OutlineInputBorder(),
-                  ),
-                  obscureText: true,
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(
-                        errorText: 'Senha é obrigatória'),
-                    FormBuilderValidators.minLength(3,
-                        errorText: 'A senha deve ter pelo menos 3 caracteres'),
-                  ]),
+                obscureText: true,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'Password is required'),
+                  FormBuilderValidators.minLength(3,
+                      errorText: 'Password must be at least 3 characters long'),
+                ]),
+              ),
+              const SizedBox(height: 16.0),
+              FormBuilderTextField(
+                name: 'confirm_password',
+                decoration: const InputDecoration(
+                  labelText: 'Confirm Password',
+                  border: OutlineInputBorder(),
                 ),
-                const SizedBox(height: 16.0),
-                FormBuilderTextField(
-                  name: 'confirm_password',
-                  decoration: const InputDecoration(
-                    labelText: 'Confirme a senha',
-                    border: OutlineInputBorder(),
-                  ),
-                  obscureText: true,
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(
-                        errorText: 'Confirmação de senha é obrigatória'),
-                    FormBuilderValidators.minLength(3,
-                        errorText:
-                            'A confirmação de senha deve ter pelo menos 3 caracteres'),
-                  ]),
-                ),
-                const SizedBox(height: 32.0),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.saveAndValidate()) {
-                      final formValues = _formKey.currentState!.value;
-                      final username = formValues['username'];
-                      final email = formValues['email'];
-                      final password = formValues['password'];
+                obscureText: true,
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.required(
+                      errorText: 'Password confirmation is required'),
+                  FormBuilderValidators.minLength(3,
+                      errorText:
+                          'Password confirmation must be at least 3 characters long'),
+                ]),
+              ),
+              const SizedBox(height: 32.0),
+              FilledButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.saveAndValidate()) {
+                    final formValues = _formKey.currentState!.value;
+                    final username = formValues['username'];
+                    final email = formValues['email'];
+                    final password = formValues['password'];
 
-                      var result =
-                          await authService.register(username, email, password);
+                    var result =
+                        await authService.register(username, email, password);
 
-                      if (result is Failure) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Erro: ${result.error}')),
-                        );
-                      }
+                    if (result is Failure) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Sucess!")),
+                        SnackBar(content: Text('Error: ${result.error}')),
                       );
-                      Navigator.pop(context);
                     }
-                  },
-                  child: const Text('Registrar'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32.0, vertical: 16.0),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                TextButton(
-                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: const Text("Sucess!")),
+                    );
                     Navigator.pop(context);
-                  },
-                  child: const Text('Já tem uma conta? Faça login'),
+                  }
+                },
+                child: const Text('Register'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16.0),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Already have an account? Log in'),
+              ),
+            ],
           ),
         ),
       ),

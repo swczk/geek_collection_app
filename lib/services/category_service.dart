@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:geek_collection/domain/abstractions/result.dart';
@@ -16,7 +14,7 @@ class CategoryService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     Result<String?> tokenResult = await persistenceService.getToken();
@@ -35,7 +33,6 @@ class CategoryService {
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       if (response.statusCode == 200) {
-        print("Category => ");
         List<Category> categories = (response.data as List)
             .map((data) => Category.fromJson(data))
             .toList();
@@ -44,7 +41,7 @@ class CategoryService {
       }
       return Failure('Unexpected response status code: ${response.statusCode}');
     } catch (e) {
-      throw Failure('Erro na requisição: $e');
+      throw Failure('Request error: $e');
     }
   }
 }

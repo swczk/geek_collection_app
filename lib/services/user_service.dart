@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:geek_collection/domain/users/user.dart';
 import 'package:get_it/get_it.dart';
@@ -17,7 +15,7 @@ class UserService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     Result<String?> tokenResult = await persistenceService.getToken();
@@ -42,7 +40,7 @@ class UserService {
       }
       return Failure('Unexpected response status code: ${response.statusCode}');
     } catch (e) {
-      return Failure('Erro ao buscar o perfil do usuário: $e');
+      return Failure('Error fetching the user profile: $e');
     }
   }
 }

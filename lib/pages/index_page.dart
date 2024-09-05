@@ -38,15 +38,15 @@ class _MainScreenState extends State<MainScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: 'Minhas Coleções',
+            label: 'My Collections',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.share),
-            label: 'Coleções Compartilhadas',
+            label: 'Shared Collections',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Perfil',
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,

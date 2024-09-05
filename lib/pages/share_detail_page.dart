@@ -60,7 +60,7 @@ class SharedDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 const Text(
-                  'Itens',
+                  'Items',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 ListView.builder(
@@ -78,8 +78,8 @@ class SharedDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(item.description),
-                            Text('Categoria: ${item.category.name}'),
-                            Text('Condição: ${item.condition}'),
+                            Text('Category: ${item.category.name}'),
+                            Text('Condition: ${item.condition}'),
                           ],
                         ),
                       ),

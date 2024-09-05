@@ -43,13 +43,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
           _isLoading = false;
         });
       } else if (result is Failure) {
-        _showError('Erro ao carregar categorias');
+        _showError('Error loading categories');
         setState(() {
           _isLoading = false;
         });
       }
     } catch (e) {
-      _showError('Erro ao carregar categorias: $e');
+      _showError('Error loading categories: $e');
       setState(() {
         _isLoading = false;
       });
@@ -68,7 +68,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
       final categoryId = _category?.id;
       if (categoryId == null) {
-        _showError('Categoria é obrigatória');
+        _showError('Category is required');
         return;
       }
 
@@ -87,7 +87,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       if (result is Success) {
         Navigator.pop(context);
       } else if (result is Failure) {
-        _showError(result.error ?? 'Erro ao criar item');
+        _showError(result.error);
       }
     }
   }
@@ -95,7 +95,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Adicionar Novo Item')),
+      appBar: AppBar(title: const Text('Add New Item')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: _isLoading
@@ -105,19 +105,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Nome do item'),
+                      decoration: const InputDecoration(labelText: 'Name'),
                       onSaved: (value) => _name = value ?? '',
                       validator: (value) => value == null || value.isEmpty
-                          ? 'Nome é obrigatório'
+                          ? 'Name is required'
                           : null,
                     ),
                     TextFormField(
                       decoration:
-                          const InputDecoration(labelText: 'Descrição do item'),
+                          const InputDecoration(labelText: 'Description'),
                       onSaved: (value) => _description = value ?? '',
                       validator: (value) => value == null || value.isEmpty
-                          ? 'Descrição é obrigatória'
+                          ? 'Description is required'
                           : null,
                     ),
                     DropdownButtonFormField<Category>(
@@ -133,22 +132,21 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           _category = newValue;
                         });
                       },
-                      decoration: const InputDecoration(labelText: 'Categoria'),
+                      decoration: const InputDecoration(labelText: 'Category'),
                       validator: (value) =>
-                          value == null ? 'Categoria é obrigatória' : null,
+                          value == null ? 'Category is required' : null,
                     ),
                     TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Condição do item'),
+                      decoration: const InputDecoration(labelText: 'Condition'),
                       onSaved: (value) => _condition = value ?? '',
                       validator: (value) => value == null || value.isEmpty
-                          ? 'Condição é obrigatória'
+                          ? 'Condition is required'
                           : null,
                     ),
                     const SizedBox(height: 20),
                     FilledButton(
                       onPressed: _submitForm,
-                      child: const Text('Adicionar'),
+                      child: const Text('Add'),
                     ),
                   ],
                 ),

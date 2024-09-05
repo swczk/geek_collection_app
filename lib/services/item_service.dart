@@ -4,7 +4,6 @@ import 'package:geek_collection/domain/items/item_update_dto.dart';
 import 'package:get_it/get_it.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-import 'package:geek_collection/domain/items/item.dart';
 import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:geek_collection/services/persistence_service.dart';
 
@@ -20,7 +19,7 @@ class ItemService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -38,9 +37,9 @@ class ItemService {
       if (response.statusCode == 201) {
         return const Success(null);
       }
-      return const Failure('Erro ao criar item');
+      return const Failure('Error creating item');
     } catch (e) {
-      return Failure('Erro ao criar item: $e');
+      return Failure('Error creating item: $e');
     }
   }
 
@@ -51,7 +50,7 @@ class ItemService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -67,12 +66,11 @@ class ItemService {
           data: updateItem.toJson());
 
       if (response.statusCode != 200) {
-        return Failure('Erro ao atualizar item: ${response.statusMessage}');
+        return Failure('Error updating item: ${response.statusMessage}');
       }
       return const Success(null);
     } catch (e) {
-      print('Erro ao atualizar item: $e');
-      return Failure('Erro ao atualizar item: $e');
+      return Failure('Error updating item: $e');
     }
   }
 
@@ -80,7 +78,7 @@ class ItemService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -95,12 +93,11 @@ class ItemService {
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       if (response.statusCode != 200 && response.statusCode != 204) {
-        return Failure('Erro ao Deletar item: ${response.statusMessage}');
+        return Failure('Error deleting item: ${response.statusMessage}');
       }
       return const Success(null);
     } catch (e) {
-      print('Erro ao atualizar item: $e');
-      return Failure('Erro ao atualizar item: $e');
+      return Failure('Error deleting item: $e');
     }
   }
 }

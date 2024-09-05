@@ -21,8 +21,13 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Bem-vindo ao Geek Collections',
+                'Welcome Geek!',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const Image(
+                width: 128,
+                image: NetworkImage(
+                    'https://cdn-icons-png.flaticon.com/512/626/626580.png'),
               ),
               const SizedBox(height: 32.0),
               FormBuilderTextField(
@@ -34,24 +39,24 @@ class LoginScreen extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
-                      errorText: 'Email é obrigatório'),
+                      errorText: 'Email is required'),
                   FormBuilderValidators.email(
-                      errorText: 'Informe um email válido'),
+                      errorText: 'Please enter a valid email'),
                 ]),
               ),
               const SizedBox(height: 16.0),
               FormBuilderTextField(
                 name: 'password',
                 decoration: const InputDecoration(
-                  labelText: 'Senha',
+                  labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
                 obscureText: true,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
-                      errorText: 'Senha é obrigatória'),
+                      errorText: 'Password is required'),
                   FormBuilderValidators.minLength(3,
-                      errorText: 'A senha deve ter pelo menos 3 caracteres'),
+                      errorText: 'Password must be at least 3 characters long'),
                 ]),
               ),
               const SizedBox(height: 32.0),
@@ -59,21 +64,22 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState!.saveAndValidate()) {
                     final formValues = _formKey.currentState!.value;
-						  final loginModel = LoginModel(
-							email: formValues['email'],
-							password: formValues['password'],
-							);
+                    final loginModel = LoginModel(
+                      email: formValues['email'],
+                      password: formValues['password'],
+                    );
 
                     final token = await _authService.login(loginModel);
 
                     if (token is Success) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Login realizado com sucesso!')),
+                        const SnackBar(
+                            content: const Text('Login successful!')),
                       );
                       Navigator.pushReplacementNamed(context, '/collections');
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Erro ao realizar login')),
+                        const SnackBar(content: Text('Error logging in')),
                       );
                     }
                   }
@@ -89,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, '/register');
                 },
-                child: const Text('Ainda não tem uma conta? Registre-se'),
+                child: const Text('Don\'t have an account? Sign up'),
               ),
             ],
           ),

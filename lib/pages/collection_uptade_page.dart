@@ -33,7 +33,7 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
             widget.collection, _name, _description);
         Navigator.pop(context);
       } catch (e) {
-        print('Erro ao atualizar coleção: $e');
+        print('Error updating collection: $e');
       }
     }
   }
@@ -54,14 +54,14 @@ class _EditCollectionScreenState extends State<EditCollectionScreen> {
                   decoration: const InputDecoration(labelText: 'Name'),
                   onSaved: (value) => _name = value ?? '',
                   validator: (value) => value == null || value.isEmpty
-                      ? 'Nome é obrigatório'
+                      ? 'Name is required'
                       : null),
               TextFormField(
                   initialValue: _description,
                   decoration: const InputDecoration(labelText: 'Description'),
                   onSaved: (value) => _description = value ?? '',
                   validator: (value) => value == null || value.isEmpty
-                      ? 'Descrição é obrigatória'
+                      ? 'Description is required'
                       : null),
               const SizedBox(height: 20),
               Row(

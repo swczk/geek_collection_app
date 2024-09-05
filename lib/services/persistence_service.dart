@@ -2,8 +2,6 @@ import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PersistenceService {
-  PersistenceService();
-
   Future<Result<String>> getToken() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();

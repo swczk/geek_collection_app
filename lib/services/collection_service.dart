@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -18,7 +16,7 @@ class CollectionService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -37,10 +35,12 @@ class CollectionService {
             .toList();
 
         return Success(sharedCollections);
+      } else if (response.statusCode == 204) {
+        return Success(List<Collection>.empty());
       }
-      return const Failure('Erro ao buscar coleções compartilhadas');
+      return const Failure('Error fetching collections');
     } catch (e) {
-      return Failure('Erro na requisição: $e');
+      return Failure('Request error: $e');
     }
   }
 
@@ -48,7 +48,7 @@ class CollectionService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -66,11 +66,11 @@ class CollectionService {
           });
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        return Failure('Erro ao criar coleção: ${response.statusMessage}');
+        return Failure('Error creating collection: ${response.statusMessage}');
       }
       return const Success(null);
     } catch (e) {
-      return Failure('Erro ao criar coleção: $e');
+      return Failure('Error creating collection: $e');
     }
   }
 
@@ -79,7 +79,7 @@ class CollectionService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -97,14 +97,14 @@ class CollectionService {
           });
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        return Failure('Erro ao atualizar coleção: ${response.statusMessage}');
+        return Failure('Error updating collection: ${response.statusMessage}');
       }
       collection.name = name;
       collection.description = description;
 
       return Success(collection);
     } catch (e) {
-      return Failure('Erro ao atualizar coleção: $e');
+      return Failure('Error updating collection: $e');
     }
   }
 
@@ -112,7 +112,7 @@ class CollectionService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -126,12 +126,12 @@ class CollectionService {
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       if (response.statusCode != 200 && response.statusCode != 201) {
-        return Failure('Erro ao atualizar coleção: ${response.statusMessage}');
+        return Failure('Error deleting collection: ${response.statusMessage}');
       }
 
       return const Success(null);
     } catch (e) {
-      return Failure('Erro ao atualizar coleção: $e');
+      return Failure('Error deleting collection: $e');
     }
   }
 }

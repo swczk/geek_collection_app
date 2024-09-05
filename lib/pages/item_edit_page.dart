@@ -57,13 +57,13 @@ class _EditItemScreenState extends State<EditItemScreen> {
         });
         _formKey.currentState?.patchValue({'category': _category});
       } else if (result is Failure) {
-        _showError('Erro ao carregar categorias');
+        _showError('Error loading categories');
         setState(() {
           _isLoading = false;
         });
       }
     } catch (e) {
-      _showError('Erro ao carregar categorias: $e');
+      _showError('Error loading categories: $e');
       setState(() {
         _isLoading = false;
       });
@@ -103,7 +103,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
         }
         Navigator.pop(context);
       } catch (e) {
-        _showError('Erro ao atualizar item: $e');
+        _showError('Error updating item: $e');
       }
     }
   }
@@ -113,15 +113,15 @@ class _EditItemScreenState extends State<EditItemScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirmar Exclusão'),
+          title: const Text('Confirm Deletion'),
           content: const Text('Você tem certeza que deseja excluir este item?'),
           actions: <Widget>[
-            TextButton(
-              child: const Text('Cancelar'),
+            FilledButton(
+              child: const Text('No'),
               onPressed: () => Navigator.of(context).pop(false),
             ),
             TextButton(
-              child: const Text('Excluir'),
+              child: const Text('Yes'),
               onPressed: () => Navigator.of(context).pop(true),
             ),
           ],
@@ -139,7 +139,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       var result =
           await itemService.deleteItem(widget.collectionId, widget.item.id);
       if (result is Failure) {
-        _showError('Erro ao deletar item');
+        _showError('Error deleting item');
       } else if (result is Success) {
         Navigator.pop(context, true);
         if (widget.onItemDeleted != null) {
@@ -147,7 +147,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
         }
       }
     } catch (e) {
-      _showError('Erro ao deletar item: $e');
+      _showError('Error deleting item: $e');
     }
   }
 
@@ -155,7 +155,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar Item'),
+        title: const Text('Edit Item'),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -169,7 +169,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     FormBuilderTextField(
                       name: 'name',
                       initialValue: _name,
-                      decoration: const InputDecoration(labelText: 'Nome'),
+                      decoration: const InputDecoration(labelText: 'Name'),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                       ]),
@@ -177,7 +177,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     FormBuilderTextField(
                       name: 'description',
                       initialValue: _description,
-                      decoration: const InputDecoration(labelText: 'Descrição'),
+                      decoration:
+                          const InputDecoration(labelText: 'Description'),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                       ]),
@@ -185,7 +186,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     FormBuilderDropdown<Category>(
                       name: 'category',
                       initialValue: _category,
-                      decoration: const InputDecoration(labelText: 'Categoria'),
+                      decoration: const InputDecoration(labelText: 'Category'),
                       items: _categories.map((Category category) {
                         return DropdownMenuItem<Category>(
                           value: category,
@@ -199,7 +200,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                     FormBuilderTextField(
                       name: 'condition',
                       initialValue: _condition,
-                      decoration: const InputDecoration(labelText: 'Condição'),
+                      decoration: const InputDecoration(labelText: 'Condition'),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                       ]),
@@ -210,7 +211,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       children: [
                         FilledButton(
                             onPressed: _submitForm,
-                            child: const Text('Atualizar')),
+                            child: const Text('Update')),
                         IconButton(
                             onPressed: _confirmDelete,
                             icon: const Icon(Icons.delete))

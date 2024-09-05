@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:geek_collection/domain/abstractions/error.dart';
 import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:geek_collection/domain/users/user.dart';
+import 'package:geek_collection/services/persistence_service.dart';
 import 'package:geek_collection/services/user_service.dart';
-import 'package:geek_collection/services/auth_service.dart';
+import 'package:get_it/get_it.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final UserService _userService = UserService();
-  final AuthService _authService = AuthService();
+  final persistenceService = GetIt.I<PersistenceService>();
+  final userService = GetIt.I<UserService>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('User Profile'), centerTitle: true),
       body: FutureBuilder<Result<User>>(
-        future: _userService.fetchUserProfile(),
+        future: userService.fetchUserProfile(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -56,7 +57,7 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24.0),
                     ElevatedButton(
                       onPressed: () async {
-                        await _authService.logout();
+                        await persistenceService.removeToken();
                         Navigator.of(context).pushReplacementNamed('/login');
                       },
                       child: const Text('Logout'),
@@ -69,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
             return Erro(icon: Icons.error, size: 64, mensagem: result!.error);
           }
           //}
-          return const Center(child: Text('Erro desconhecido.'));
+          return const Center(child: Text('Unknown error.'));
         },
       ),
     );

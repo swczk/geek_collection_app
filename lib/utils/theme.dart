@@ -10,8 +10,6 @@ class DefaultTheme {
     //  Color black = Colors.black;
 
     Color primary = const Color(0xFF013d4c);
-    Color secondary = const Color(0xFFD22828);
-    Color primaryLight = const Color.fromARGB(120, 1, 61, 76);
     Color tertiary = const Color.fromARGB(255, 1, 37, 46);
     Color white = Colors.white;
     Color black = Colors.black;
@@ -77,8 +75,6 @@ class DefaultTheme {
   static ThemeData darkThemeData() {
     Color primary = const Color(0xFF013d4c);
     Color secondary = const Color(0xFFD22828);
-    Color secondaryLight = const Color.fromARGB(120, 1, 61, 76);
-    Color tertiary = const Color.fromARGB(255, 1, 37, 46);
     Color white = Colors.white;
     Color whiteLight = Colors.white12;
     Color black = const Color.fromARGB(255, 22, 36, 39);

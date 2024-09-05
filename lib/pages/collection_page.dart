@@ -30,7 +30,7 @@ class CollectionsScreen extends StatelessWidget {
             List<Collection> collections = result.data;
 
             if (collections.isEmpty) {
-              return const Center(child: Text('Nenhuma coleção encontrada.'));
+              return const Center(child: Text('No collections found.'));
             }
 
             return ListView.builder(
@@ -43,7 +43,7 @@ class CollectionsScreen extends StatelessWidget {
             return Erro(icon: Icons.error, size: 64, mensagem: result!.error);
           }
           //}
-          return const Center(child: Text('Erro desconhecido.'));
+          return const Center(child: Text('Unknown error.'));
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -56,7 +56,7 @@ class CollectionsScreen extends StatelessWidget {
           );
         },
         child: const Icon(Icons.add),
-        tooltip: 'Criar nova coleção',
+        tooltip: 'Create new collection',
       ),
     );
   }

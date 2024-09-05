@@ -4,7 +4,6 @@ import 'package:geek_collection/domain/abstractions/result.dart';
 import 'package:geek_collection/domain/users/loginDto.dart';
 import 'package:geek_collection/services/persistence_service.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final Dio _dio = Dio();
@@ -15,7 +14,7 @@ class AuthService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     try {
@@ -37,16 +36,6 @@ class AuthService {
     }
   }
 
-  Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('authToken');
-  }
-
-  Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('authToken');
-  }
-
   Future<Result<bool>> register(
       String username, String email, String password) async {
     try {
@@ -57,11 +46,11 @@ class AuthService {
       });
 
       if (response.statusCode != 200) {
-        return Failure('Erro ao registrar usuário: ${response.statusMessage}');
+        return Failure('Error registering user: ${response.statusMessage}');
       }
       return const Success(true);
     } catch (e) {
-      return Failure('Login failed: $e');
+      return Failure('Registration failed: $e');
     }
   }
 
@@ -74,9 +63,7 @@ class AuthService {
 
     try {
       final response = await _dio.get('$_baseUrl/user/verify',
-          options: Options(headers: {
-            'Authorization': 'Bearer $token',
-          }));
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       if (response.statusCode == 401) {
         await persistenceService.removeToken();

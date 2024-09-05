@@ -11,6 +11,7 @@ import 'package:geek_collection/services/collection_service.dart';
 import 'package:geek_collection/services/item_service.dart';
 import 'package:geek_collection/services/persistence_service.dart';
 import 'package:geek_collection/services/share_service.dart';
+import 'package:geek_collection/services/user_service.dart';
 import 'package:geek_collection/utils/theme.dart';
 import 'package:get_it/get_it.dart';
 
@@ -25,6 +26,7 @@ Future<void> dependency() async {
   await getIt.isReady<AuthService>();
 
   getIt.registerSingletonAsync<ShareService>(() async => ShareService());
+  getIt.registerSingletonAsync<UserService>(() async => UserService());
   getIt.registerSingletonAsync<ItemService>(() async => ItemService());
   getIt.registerSingletonAsync<CategoryService>(() async => CategoryService());
   getIt.registerSingletonAsync<CollectionService>(
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
 Future<bool> _checkLoginStatus() async {
   final persistenceService = GetIt.I<PersistenceService>();
   final authService = GetIt.I<AuthService>();
-  var result = await authService.getToken();
+  var result = await persistenceService.getToken();
   if (result is Failure) {
     return false;
   }

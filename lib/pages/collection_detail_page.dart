@@ -21,35 +21,28 @@ class CollectionDetailsScreen extends StatelessWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirmar Exclusão'),
+          title: const Text('Confirm Deletion'),
           content: const Text(
-              'Você tem certeza de que deseja remover este compartilhamento?'),
+              'Are you sure you want to remove this shared collection?'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancelar'),
+              child: const Text('No'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            TextButton(
-              child: const Text('Excluir'),
+            FilledButton(
+              child: const Text('Yes'),
               onPressed: () async {
-                Navigator.of(context).pop(); // Fechar o diálogo
+                Navigator.of(context).pop();
                 final result =
                     await _shareService.deleteShare(collection.id, userId);
                 if (result is Success) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content:
-                            Text('Compartilhamento excluído com sucesso!')),
-                  );
-                  // Atualizar a tela após exclusão (por exemplo, atualizar a coleção)
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Share deleted successfully!')));
                 } else if (result is Failure) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(result.error ??
-                            'Erro ao excluir compartilhamento')),
-                  );
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text(result.error)));
                 }
               },
             ),
@@ -100,7 +93,7 @@ class CollectionDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Compartilhado com',
+                      'Shared with',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -152,12 +145,12 @@ class CollectionDetailsScreen extends StatelessWidget {
                   },
                 ),
                 if (collection.shares.isEmpty)
-                  const Center(child: Text("Nenhum")),
+                  const Center(child: Text("None")),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Itens',
+                    const Text('Items',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     IconButton(
@@ -189,8 +182,8 @@ class CollectionDetailsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(item.description),
-                            Text('Categoria: ${item.category.name}'),
-                            Text('Condição: ${item.condition}'),
+                            Text('Category: ${item.category.name}'),
+                            Text('Condition: ${item.condition}'),
                           ],
                         ),
                         trailing: IconButton(
@@ -208,8 +201,7 @@ class CollectionDetailsScreen extends StatelessWidget {
                     );
                   },
                 ),
-                if (collection.items.isEmpty)
-                  const Center(child: Text("Nenhum")),
+                if (collection.items.isEmpty) const Center(child: Text("None")),
               ],
             ),
           ),

@@ -19,7 +19,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
         await _collectionService.createCollection(_name, _description);
         Navigator.pop(context);
       } catch (e) {
-        print('Erro ao criar coleção: $e');
+        print('Error creating collection: $e');
       }
     }
   }
@@ -27,9 +27,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Criar Nova Coleção'),
-      ),
+      appBar: AppBar(title: const Text('Create New Collection')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -37,10 +35,10 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
           child: Column(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Nome da Coleção'),
+                decoration: const InputDecoration(labelText: 'Collection Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, insira um nome';
+                    return 'Please enter a name';
                   }
                   return null;
                 },
@@ -49,10 +47,10 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
                 },
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Descrição'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, insira uma descrição';
+                    return 'Please enter a description';
                   }
                   return null;
                 },
@@ -63,7 +61,7 @@ class _CreateCollectionPageState extends State<CreateCollectionPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('Criar Coleção'),
+                child: const Text('Create Collection'),
               ),
             ],
           ),

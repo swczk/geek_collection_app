@@ -17,7 +17,7 @@ class ShareService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -36,10 +36,12 @@ class ShareService {
             .toList();
 
         return Success(sharedCollections);
+      } else if (response.statusCode == 204) {
+        return Success(List<Collection>.empty());
       }
-      return const Failure('Erro ao buscar coleções compartilhadas');
+      return const Failure('Error fetching shared collections');
     } catch (e) {
-      return Failure('Erro ao buscar coleções compartilhadas: $e');
+      return Failure('Error fetching shared collections: $e');
     }
   }
 
@@ -47,7 +49,7 @@ class ShareService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -67,9 +69,9 @@ class ShareService {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return const Success(null);
       }
-      return const Failure('Erro ao compartilhar coleção');
+      return const Failure('Error sharing collection');
     } catch (e) {
-      return Failure('Erro ao compartilhar coleção: $e');
+      return Failure('Error sharing collection: $e');
     }
   }
 
@@ -77,7 +79,7 @@ class ShareService {
     final connectivity = await Connectivity().checkConnectivity();
     if (!connectivity.contains(ConnectivityResult.mobile) &&
         !connectivity.contains(ConnectivityResult.wifi)) {
-      return const Failure('Você está sem internet!');
+      return const Failure('You are offline!');
     }
 
     final tokenResult = await persistenceService.getToken();
@@ -95,9 +97,9 @@ class ShareService {
       if (response.statusCode == 200 || response.statusCode == 204) {
         return const Success(null);
       }
-      return const Failure('Erro ao remover compartilhamento');
+      return const Failure('Error removing shared collection');
     } catch (e) {
-      return Failure('Erro ao remover compartilhamento: $e');
+      return Failure('Error removing shared collection: $e');
     }
   }
 }
