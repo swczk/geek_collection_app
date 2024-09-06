@@ -1,4 +1,4 @@
-package com.example.geek_collection
+package com.geek_collection
 
 import io.flutter.embedding.android.FlutterActivity
 
