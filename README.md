@@ -1,16 +1,30 @@
-# geek_collection
+<p align="center">
+  <h1 align="center">Geek Collection App</h1>
+  <h3 align="center"></h3>
+</p>
+An application designed to help collectors of geek items, such as action figures, comics, board games, posters, video games, tech gadgets, etc. The app include features to catalog items, add photos*, manage values and conditions, and share collections with other users.
 
-A new Flutter project.
+*feature pending.
 
-## Getting Started
+See the backend
+[GeekCollectionManagementApi](https://github.com/swczk/GeekCollectionManagementApi)
 
-This project is a starting point for a Flutter application.
+## Screenshots
 
-A few resources to get you started if this is your first Flutter project:
+### Login
+<img alt="Login" src="screenshots/login.png"/>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Sign Up
+<img alt="Sign Up" src="screenshots/register.png"/>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Collection
+<img alt="Collection" src="screenshots/collection-page.png"/>
+
+### Collection Detail
+<img alt="Collection Detail" src="screenshots/collection-detail-page.png"/>
+
+### Shared Collection
+<img alt="Shared Collection" src="screenshots/shared-collection-page.png"/>
+
+### Shared Collection Detail
+<img alt="Shared Collection Detail" src="screenshots/shared-collection-detail-page.png"/>
