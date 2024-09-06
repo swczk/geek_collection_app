@@ -21,9 +21,9 @@ class CollectionDetailsScreen extends StatelessWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
+          title: const Text('Stop Sharing'),
           content: const Text(
-              'Are you sure you want to remove this shared collection?'),
+              'Are you sure you want to stop sharing this collection with this user?'),
           actions: <Widget>[
             TextButton(
               child: const Text('No'),
@@ -31,7 +31,7 @@ class CollectionDetailsScreen extends StatelessWidget {
                 Navigator.of(context).pop();
               },
             ),
-            FilledButton(
+            TextButton(
               child: const Text('Yes'),
               onPressed: () async {
                 Navigator.of(context).pop();

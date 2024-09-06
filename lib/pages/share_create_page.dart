@@ -15,29 +15,8 @@ class AddShareScreen extends StatefulWidget {
 }
 
 class _AddShareScreenState extends State<AddShareScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
   final _shareService = GetIt.I<ShareService>();
-
-  String _email = '';
-
-  void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      final result =
-          await _shareService.shareCollections(widget.collectionId, _email);
-
-      if (result is Success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Collection shared successfully!')),
-        );
-        Navigator.pop(context, true);
-      } else if (result is Failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result.error)),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +26,7 @@ class _AddShareScreenState extends State<AddShareScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
+        child: FormBuilder(
           key: _formKey,
           child: Column(
             children: [
@@ -66,7 +45,27 @@ class _AddShareScreenState extends State<AddShareScreen> {
                 ]),
               ),
               const SizedBox(height: 20),
-              FilledButton(onPressed: _submitForm, child: const Text('Share')),
+              FilledButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.saveAndValidate()) {
+                      final formValues = _formKey.currentState!.value;
+                      final result = await _shareService.shareCollections(
+                          widget.collectionId, formValues['email']);
+
+                      if (result is Success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Collection shared successfully!')),
+                        );
+                        Navigator.pop(context, true);
+                      } else if (result is Failure) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(result.error)),
+                        );
+                      }
+                    }
+                  },
+                  child: const Text('Share')),
             ],
           ),
         ),

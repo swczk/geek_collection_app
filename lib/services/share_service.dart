@@ -66,10 +66,10 @@ class ShareService {
             'sharedWithEmail': email,
           });
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return const Success(null);
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        return const Failure('Error sharing collection');
       }
-      return const Failure('Error sharing collection');
+      return const Success(null);
     } catch (e) {
       return Failure('Error sharing collection: $e');
     }

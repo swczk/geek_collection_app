@@ -34,10 +34,11 @@ class ItemService {
         data: itemCreate.toJson(),
       );
 
-      if (response.statusCode == 201) {
-        return const Success(null);
+      if (response.statusCode != 201) {
+        return const Failure('Error creating item');
       }
-      return const Failure('Error creating item');
+
+      return const Success(null);
     } catch (e) {
       return Failure('Error creating item: $e');
     }

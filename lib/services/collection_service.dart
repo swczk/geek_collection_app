@@ -96,11 +96,9 @@ class CollectionService {
             'description': description,
           });
 
-      if (response.statusCode != 200 && response.statusCode != 201) {
+      if (response.statusCode != 200 && response.statusCode != 204) {
         return Failure('Error updating collection: ${response.statusMessage}');
       }
-      collection.name = name;
-      collection.description = description;
 
       return Success(collection);
     } catch (e) {
@@ -125,7 +123,7 @@ class CollectionService {
       final response = await _dio.delete('$_baseUrl/collections/$collectionId',
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
-      if (response.statusCode != 200 && response.statusCode != 201) {
+      if (response.statusCode != 200 && response.statusCode != 204) {
         return Failure('Error deleting collection: ${response.statusMessage}');
       }
 

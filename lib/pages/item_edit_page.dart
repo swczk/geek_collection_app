@@ -113,10 +113,10 @@ class _EditItemScreenState extends State<EditItemScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
-          content: const Text('Você tem certeza que deseja excluir este item?'),
+          title: const Text('Delete Item'),
+          content: const Text('Are you sure you want to delete this item?'),
           actions: <Widget>[
-            FilledButton(
+            TextButton(
               child: const Text('No'),
               onPressed: () => Navigator.of(context).pop(false),
             ),
