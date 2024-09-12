@@ -7,7 +7,7 @@ An application designed to help collectors of geek items, such as action figures
 *feature pending.
 
 See the backend
-[GeekCollectionManagementApi](https://github.com/swczk/GeekCollectionManagementApi)
+[Geek Collection Management Api](https://github.com/swczk/GeekCollectionManagementApi)
 
 ## Screenshots
 
@@ -28,3 +28,6 @@ See the backend
 
 ### Shared Collection Detail
 <img alt="Shared Collection Detail" src="screenshots/shared-collection-detail-page.png"/>
+
+### User Profile
+<img alt="Shared Collection Detail" src="screenshots/user-page.png"/>
