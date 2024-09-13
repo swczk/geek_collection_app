@@ -10,24 +10,26 @@ See the backend
 [Geek Collection Management Api](https://github.com/swczk/GeekCollectionManagementApi)
 
 ## Screenshots
+<p align="center">
+  <h3 align="center">Login / Sign Up</h3>
+</p>
+<img alt="Login" width=49% src="screenshots/login.png"/>
+<img alt="Sign Up" width=49% src="screenshots/register.png"/>
 
-### Login
-<img alt="Login" src="screenshots/login.png"/>
+<p align="center">
+  <h3 align="center">Collection / Collection Detail</h3>
+</p>
+<img alt="Collection" width=49% src="screenshots/collection-page.png"/>
+<img alt="Collection Detail" width=49% src="screenshots/collection-detail-page.png"/>
 
-### Sign Up
-<img alt="Sign Up" src="screenshots/register.png"/>
+<p align="center">
+  <h3 align="center">Shared Collection / Shared Collection Detail</h3>
+</p>
+<img alt="Shared Collection" width=49% src="screenshots/shared-collection-page.png"/>
+<img alt="Shared Collection Detail" width=49% src="screenshots/shared-collection-detail-page.png"/>
 
-### Collection
-<img alt="Collection" src="screenshots/collection-page.png"/>
 
-### Collection Detail
-<img alt="Collection Detail" src="screenshots/collection-detail-page.png"/>
-
-### Shared Collection
-<img alt="Shared Collection" src="screenshots/shared-collection-page.png"/>
-
-### Shared Collection Detail
-<img alt="Shared Collection Detail" src="screenshots/shared-collection-detail-page.png"/>
-
-### User Profile
-<img alt="Shared Collection Detail" src="screenshots/user-page.png"/>
+<p align="center">
+  <h3 align="center">User Profile</h3>
+</p>
+<img alt="Shared Collection Detail" width=49% src="screenshots/user-page.png"/>
